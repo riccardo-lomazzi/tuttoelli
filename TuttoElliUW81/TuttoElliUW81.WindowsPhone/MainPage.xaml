@@ -1,0 +1,156 @@
+﻿<Page
+    x:Class="TuttoElliUW81.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TuttoElliUW81"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <!-- Transizioni -->
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <SlideNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <!--LayoutRoot è la griglia radice in cui viene inserito tutto il contenuto della pagina-->
+    <Grid x:Name="LayoutRoot" Margin="5,5,5,5">
+
+
+
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/background-image.jpg" 
+                                Opacity="0.4"
+                                Stretch="UniformToFill"/>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <StackPanel 
+                                    Grid.Row="0"
+                                    >
+
+            <TextBlock Text="TuttoElli"
+                                       FontSize="50"
+                                       FontWeight="Bold"/>
+            <TextBlock 
+                                       TextWrapping="WrapWholeWords"
+                                       FontSize="15"
+                                       FontWeight="SemiBold">
+                                con la gentile collaborazione di <LineBreak /> 
+                                    <Hyperlink NavigateUri="http://www.marok.org"
+                                               Foreground="Aquamarine">
+                                     marok.org
+                                    </Hyperlink>
+            </TextBlock>
+
+            <TextBlock 
+               Text="discografia"
+               FontStyle="Normal"
+               FontWeight="Bold"
+               Foreground="White"
+               FontFamily="Segoe UI"
+               FontSize="19"/>
+
+            <!-- Suggest Box per la ricerca album/traccia-->
+            <AutoSuggestBox 
+                                            Name="autoSuggestBox"
+                                            PlaceholderText="Cerca il titolo di una canzone o un album" 
+                                            TextChanged="AutoSuggestBox_TextChanged"
+                                            SuggestionChosen="AutoSuggestBox_SuggestionChosen"
+                                            >
+
+                <AutoSuggestBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding album_img_src}"
+                                                   Grid.Column="0"/>
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{Binding Track_title}"
+                                                           Grid.Row="0"
+                                                           TextWrapping="WrapWholeWords"
+                                                           FontSize="13"/>
+                                <Line Grid.Row="1"
+                                                      X1="0" 
+                                                      X2="1" 
+                                                      Stretch="Fill" 
+                                                      Stroke="Gray" 
+                                                      StrokeThickness="3"/>
+                                <TextBlock Text="{Binding Album_name}"
+                                                           Grid.Row="2"
+                                                           TextWrapping="WrapWholeWords"
+                                                           FontSize="10"
+                                                           FontStyle="Oblique"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </AutoSuggestBox.ItemTemplate>
+
+            </AutoSuggestBox>
+
+
+        </StackPanel>
+
+        <!--ContentPanel - inserire ulteriore contenuto qui-->
+        <Grid x:Name="ContentPanel" Grid.Row="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- ultime ricerche effettuate-->
+
+            <TextBlock Grid.Row="0"
+                                           Text="cronologia"
+                                           FontStyle="Normal"
+                                           FontWeight="Bold"
+                                           Foreground="White"
+                                           FontFamily="Segoe UI"
+                                           FontSize="19"
+                                           Margin="0,10,0,0"/>
+
+            <ListBox x:Name="lbLastViewedTracks"
+                                             Grid.Row="1"
+                                             Loaded="lastViewedTracks_OnLoaded"
+                                             SelectionChanged="lbLastViewedTracks_SelectionChanged"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                             ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                             Background="Transparent"
+                                             >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" 
+                                                           TextWrapping="WrapWholeWords"
+                                                           Foreground="White"
+                                                           FontSize="15"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+    <Page.BottomAppBar>
+        <CommandBar Name="commandBar">
+            <AppBarButton Click="btnAbout_onClick" Icon="Help" Label="about"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>
